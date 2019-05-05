@@ -1,5 +1,5 @@
 """
-Programas de muestra con Python/Pygame 
+Programas de muestra con Python/Pygame
 Simpson College Computer Science
 http://programarcadegames.com/
 http://simpson.edu/computer-science/

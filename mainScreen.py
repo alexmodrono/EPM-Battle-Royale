@@ -211,11 +211,6 @@ def getFont(size, fuente=None):
 
     return fuente
 
-def comprobarClick(pos, obj, nombre):
-    if pos[0] >= obj.left and pos[0] <= obj.right and pos[1] >= obj.top and pos[1] <= obj.bottom:
-                    return True
-    else:
-        return False
 
 def getSize(obj):
     global x_centered
@@ -292,7 +287,7 @@ DISCORD = (157, 165, 249)
 #####################################################################
 "<-- Variables -->"
 
-ancho, alto = 1280, 720
+ancho, alto = width, height
 sv = pg.display.set_mode((ancho, alto))
 pg.display.set_caption("Juego Final Battle Royale v1.0")
 #pg.mixer.music.load("musica/(3DS Music) Find Mii II - Save the World Heroes!.mp3")
