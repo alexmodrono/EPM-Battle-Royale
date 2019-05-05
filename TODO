@@ -1,0 +1,7 @@
+[] Crear escena offline
+[] Crear escena online con lobby
+
+
+Bug fixing:
+    [] Reescribir Client.py usando .csv en vez de diccionarios
+    [] Cambiar la línea que establece self.coords en Server.py
