@@ -34,10 +34,10 @@ class Server():
 					pass
 
 				try:
-					print('Coords  ' + str(self.coords) + ' ---', self.dataDict)
+					#print('Coords  ' + str(self.coords) + ' ---', self.dataDict)
 					for item in self.coords["Players"]:
-						if list(item.keys())[0] == "Player " + name:
-							self.coords["Players"][self.coords["Players"].index(item)]["Player " + name] = self.dataDict["Player " + name]
+						if list(item.keys())[0] == name:
+							self.coords["Players"][self.coords["Players"].index(item)][name] = self.dataDict[name]
 
 
 					##for item in self.coords["Players"]:
@@ -46,9 +46,6 @@ class Server():
 
 				except:
 					pass
-				#except:
-				#	pass
-
 
 				self.dataToSend = self.coords
 			if not data:
@@ -77,7 +74,7 @@ class Server():
 			cThread2.start()
 
 			self.connections.append(c)
-			self.coords["Players"].append({str("Player " + self.names[self.addresses.index(a)]): [{"x": 100, "y": 300}, []]})
+			self.coords["Players"].append({str(self.names[self.addresses.index(a)]): {"x": 100, "y": 300}})
 
 			print(self.connections)
 			print(self.names)

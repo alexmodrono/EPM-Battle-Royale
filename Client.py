@@ -83,6 +83,7 @@ if uName == None:
 	Finish()
 
 playerName = "Player " + uName
+zzName = "zz" + playerName
 
 ## Inicializar pygame
 pg.init()
@@ -182,8 +183,8 @@ class Player(pg.sprite.Sprite):
 
 
 	def updateOnNetwork(self):
-		parsed[playerName][0]["x"] = self.rect.x
-		parsed[playerName][0]["y"] = self.rect.y
+		parsed[playerName]["x"] = self.rect.x
+		parsed[playerName]["y"] = self.rect.y
 
 		#for item in parsed[playerName]
 
@@ -237,7 +238,7 @@ class Client:
 
 	def __init__(self, address, name):
 		self.sock.connect((address, 10000))
-		self.sock.send(bytes(name, 'utf-8'))
+		self.sock.send(bytes(zzName, 'utf-8'))
 		time.sleep(1)
 
 		iThread = threading.Thread(target=self.sendMsg)
@@ -264,7 +265,7 @@ client = Client(sys.argv[1], sys.argv[2])
 
 while True:
 
-	parsed = {playerName: [{"x": 100, "y": 100}, []]}
+	parsed = {playerName: {"x": 100, "y": 100}}
 	parsedCreated = True
 
 
@@ -316,8 +317,8 @@ while True:
 		try:
 			for item in dataDict["Players"]:
 				if list(item.keys())[0] != playerName:
-					xPos = item[list(item.keys())[0]][0]["x"]
-					yPos = item[list(item.keys())[0]][0]["y"]
+					xPos = item[list(item.keys())[0]]["x"]
+					yPos = item[list(item.keys())[0]]["y"]
 					pg.draw.rect(sv, ROJO, (xPos, yPos, 30, 30))
 
 					'''for bullet in item[list(item.keys())[0]][1]:
