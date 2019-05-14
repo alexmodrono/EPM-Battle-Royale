@@ -31,6 +31,7 @@ std::string GetCurrentWorkingDir( void ) {
 }
 
 int main() {
+  std::cout << "EPM Battle Royale Controller v1.0 running in " << OS << std::endl;
   std::string currentDir = GetCurrentWorkingDir();
   std::string runMainScreenFileCommand = "python3 " + currentDir + MAINSCREEN_FILE;
   system(runMainScreenFileCommand.c_str()); //ejecuta mainScreen.py

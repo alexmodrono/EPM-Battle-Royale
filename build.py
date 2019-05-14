@@ -13,8 +13,20 @@ class color:
    UNDERLINE = '\033[4m'
    END = '\033[0m'
 
-loaderText = color.PURPLE + "Compilando archivos..." + color.END
-loader = Halo(text=loaderText, spinner='dots')
-loader.start()
-os.system("g++ controller/controller.cpp -o EPM\ Battle\ Royale")
-loader.stop()
+def main():
+    loaderText = color.PURPLE + "Compilando archivos..." + color.END
+    loader = Halo(text=loaderText, spinner='dots')
+    loader.start()
+    os.system("g++ controller/controller.cpp -o EPM\ Battle\ Royale")
+    loader.stop()
+
+try:
+    if sys.argv[1] == "dependencies":
+        os.system("python3 -m pip install -r dependencies.txt")
+        main()
+    elif sys.argv[1] == "build":
+        main()
+    else:
+        print(color.RED + "Por favor pasa algún argumento a " + color.END + color.BOLD + "npm start" + color.END + color.RED + "como " + color.BOLD + "-- dependencies" + color.END + o + color.BOLD + "-- build" + color.END + ".")
+except Exception:
+    print(color.RED + "Por favor pasa algún argumento a " + color.END + color.BOLD + "npm start" + color.END + color.RED + "como " + color.BOLD + "-- dependencies" + color.END + o + color.BOLD + "-- build" + color.END + ".")

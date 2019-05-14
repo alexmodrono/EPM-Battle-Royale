@@ -13,5 +13,12 @@ git clone --recursive https://github.com/iAlex11/EPM-Battle-Royale.git
 cd EPM-Battle-Royale
 
 #Inicia el entorno de desarollo
-npm start
+npm start -- dependencies
+
+#Ejecuta el juego
+./EPM\ Battle\ Royale
 ```
+
+<kbd>npm start -- dependencies</kbd> installa las dependencias del proyecto y lo compila. Ejecuta esto solo la si es la primera vez que ejecutas EPM-Battle-Royale.
+
+Si no es la primera vez, ejecuta ``npm start -- build`` en vez de ``npm start -- dependencies`` para simplemente compilar el proyecto y no instalar las dependencias otra vez.
