@@ -1,6 +1,8 @@
 #include <iostream>
 #include "controller.h"
-
+#include <stdio.h>  /* defines FILENAME_MAX */
+#include <Python.h>
+/*
 int getCurrentPath() {
     if (OS == "Linux" || OS == "macOS X" || OS == "OpenBSD" || OS == "QNX") { //El sistema operativo es una distro de GNU
       char szTmp[32];
@@ -19,10 +21,18 @@ int getCurrentPath() {
         return bytes;
       }
     }
+} */
+
+std::string GetCurrentWorkingDir( void ) {
+  char buff[FILENAME_MAX];
+  GetCurrentDir( buff, FILENAME_MAX );
+  std::string current_working_dir(buff);
+  return current_working_dir;
 }
 
 int main() {
-  currentPath = getCurrentPath();
-  system("python3 " + currentPath + "/" + MAINSCREEN_FILE); //ejecuta mainScreen.py
+  std::string currentDir = GetCurrentWorkingDir();
+  std::string runMainScreenFileCommand = "python3 " + currentDir + MAINSCREEN_FILE;
+  system(runMainScreenFileCommand.c_str()); //ejecuta mainScreen.py
   return 0;
 }

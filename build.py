@@ -16,5 +16,5 @@ class color:
 loaderText = color.PURPLE + "Compilando archivos..." + color.END
 loader = Halo(text=loaderText, spinner='dots')
 loader.start()
-os.system("gcc controller/controller.cpp")
+os.system("g++ controller/controller.cpp -o EPM\ Battle\ Royale")
 loader.stop()
