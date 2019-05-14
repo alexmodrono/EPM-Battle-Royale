@@ -1,5 +1,4 @@
 import sys, os, time, random
-from halo import Halo
 
 class color:
    PURPLE = '\033[95m'
@@ -14,6 +13,8 @@ class color:
    END = '\033[0m'
 
 def main():
+    from halo import Halo
+    
     loaderText = color.PURPLE + "Compilando archivos..." + color.END
     loader = Halo(text=loaderText, spinner='dots')
     loader.start()

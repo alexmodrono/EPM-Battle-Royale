@@ -33,10 +33,12 @@ std::string GetCurrentWorkingDir( void ) {
 int main() {
   std::cout << "EPM Battle Royale Controller v1.0 running in " << OS << std::endl;
   std::string currentDir = GetCurrentWorkingDir();
-  if (OS == "Linux" || OS == "macOS X" || OS == "OpenBSD" || OS == "QNX") { //El sistema operativo es una distro de GNU
-    std::string runMainScreenFileCommand = "python3 " + currentDir + MAINSCREEN_FILE;
-  else if (OS == "Windows") {
-    std::string runMainScreenFileCommand = "py " + currentDir + MAINSCREEN_FILE;
+  std::string currentOS = OS;
+  std::string runMainScreenFileCommand = "echo An error ocurred while trying to detect OS.";
+  if (currentOS == "Linux" || currentOS == "macOS X" || currentOS == "OpenBSD" || currentOS == "QNX") { //El sistema operativo es una distro de GNU
+    runMainScreenFileCommand = "python3 " + currentDir + MAINSCREEN_FILE;
+  } else {
+    runMainScreenFileCommand = "py " + currentDir + MAINSCREEN_FILE;
   }
   system(runMainScreenFileCommand.c_str()); //ejecuta mainScreen.py
   return 0;
