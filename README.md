@@ -5,7 +5,7 @@ EPM Battle Royale está hecho en **C++**,**Python 3.6.5** y **Pygame 1.9.4** y e
 
 # Comenzar
 Ejecuta los siguientes comandos:
-```
+```bash
 #Clona el repositorio
 git clone --recursive https://github.com/iAlex11/EPM-Battle-Royale.git
 
