@@ -1,0 +1,12 @@
+{
+  "name": "EPM-Battle-Royale",
+  "version": "0.1.2019.5",
+  "author": "aedev <ialex11@engineer.com>, Miguel Garnica, Lukasits",
+  "description": "EPM Battle Royale Game",
+  "license": "MIT",
+  "main": "./build.py",
+  "scripts": {
+    "start": "python3 -m pip install -r dependencies.txt && python3 build.py",
+    "build": "python3 build.py"
+  }
+}

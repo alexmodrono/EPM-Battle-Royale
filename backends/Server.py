@@ -1,5 +1,18 @@
-import socket, threading, sys, time, json, ast
+import socket, threading, sys, time, json, ast, os
 from multiprocessing import Process, Pipe
+from halo import Halo
+
+class color:
+   PURPLE = '\033[95m'
+   CYAN = '\033[96m'
+   DARKCYAN = '\033[36m'
+   BLUE = '\033[94m'
+   GREEN = '\033[92m'
+   YELLOW = '\033[93m'
+   RED = '\033[91m'
+   BOLD = '\033[1m'
+   UNDERLINE = '\033[4m'
+   END = '\033[0m'
 
 class Server():
 	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -79,7 +92,22 @@ class Server():
 			print(self.connections)
 			print(self.names)
 
-
-
-server = Server()
-server.run()
+credits = """Autor: Miguel Garnica.
+Colaboradores: Alejandro Modroño (@aedev) & Lukasits"""
+os.system("clear")
+print(color.PURPLE + "Ejecutando EPM Server v1.0..." + color.END)
+for letter in credits:
+  sys.stdout.write(letter)
+  sys.stdout.flush()
+  time.sleep(0.1)
+print("\n")
+try:
+	loaderText = color.YELLOW + "Servidor ejecutándose..." + color.END
+	loader = Halo(text=loaderText, spinner='dots')
+	loader.start()
+	server = Server()
+	server.run()
+except Exception as e:
+	failText = "[" + color.PURPLE + "Error" + color.END + "] " + color.RED + "An error ocurred during runtime. ;("
+	loader.fail(failText)
+	print(e)

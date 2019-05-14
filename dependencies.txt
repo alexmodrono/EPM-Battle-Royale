@@ -1,0 +1,4 @@
+halo
+pygame
+pygame-menu
+pyautogui
