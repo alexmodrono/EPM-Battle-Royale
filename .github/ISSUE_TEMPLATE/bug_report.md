@@ -32,7 +32,7 @@ If applicable, add screenshots to help explain your problem.
  - Error number [e.g. Errno_01]
 
 **Log**:
-Log given by EPM Clien. If no log was given, run <kbd>epm ~client --log</kbd>
+Log given by EPM Client. If no log was given, run <kbd>epm ~client --log</kbd>
 
 **Additional context**
 Add any other context about the problem here.
