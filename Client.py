@@ -116,7 +116,7 @@ class Pared(pg.sprite.Sprite):
 		self.rect.y = y
 
 class Bala(pg.sprite.Sprite):
-	def __init__(self, color, x, y, radio, velX, velY):
+	def __init__(self, color, x, y, radio, velX, velY, maxLifetime):
 		super().__init__()
 		self.image = pg.Surface([2*radio, 2*radio])
 		self.color = color
@@ -127,13 +127,20 @@ class Bala(pg.sprite.Sprite):
 		self.rect.y = y
 		self.velX = velX
 		self.velY = velY
+		self.lifetime = 0
+		self.maxLifetime = maxLifetime
 
 	def update(self, bulletNum):
 		self.rect.x += self.velX
 		self.rect.y += self.velY
 
+		self.lifetime += 1
 
-		parsed[playerName][1][bulletNum] = [self.rect.x, self.rect.y]
+		if self.lifetime >= self.maxLifetime:
+			bullets.pop(bulletNum)
+			bulletsToRemove.append((self, bulletNum))
+		else:
+			parsed[playerName][1][bulletNum] = [self.rect.x, self.rect.y]
 
 
 
@@ -174,7 +181,7 @@ class Player(pg.sprite.Sprite):
 		self.proyVelY = self.catetoY/self.relHipOrg_HipNueva
 
 
-		bala = Bala(ROJO, self.rect.x, self.rect.y, 3, self.proyVelX/200, self.proyVelY/200)
+		bala = Bala(ROJO, self.rect.x, self.rect.y, 3, self.proyVelX/200, self.proyVelY/200, 20)
 		listaBalas.add(bala)
 		bullets.append([ROJO, self.rect.x, self.rect.y, 3, 0])
 
@@ -288,6 +295,7 @@ while True:
 	playersGroup = pg.sprite.Group()
 	listaBalas = pg.sprite.Group()
 	bullets = []
+	bulletsToRemove = []
 
 	player = Player(BLANCO, 20, 20, 100, 100)
 	playersGroup.add(player)
@@ -333,7 +341,7 @@ while True:
 				if list(item.keys())[0] != playerName:
 					xPos = item[list(item.keys())[0]][0]["x"]
 					yPos = item[list(item.keys())[0]][0]["y"]
-					pg.draw.rect(sv, ROJO, (xPos, yPos, 30, 30))
+					pg.draw.rect(sv, ROJO, (xPos, yPos, 20, 20))
 
 					for bullet in item[list(item.keys())[0]][1]:
 						bulletX = bullet[0]
@@ -341,7 +349,7 @@ while True:
 						#bulletW = bullet[2]
 						#bulletH = bullet[3]
 
-						pg.draw.rect(sv, VERDE, (bulletX, bulletY, 3, 3))
+						pg.draw.rect(sv, VERDE, (bulletX, bulletY, 2*3, 2*3))
 
 		except:
 			pass
@@ -392,6 +400,13 @@ while True:
 		for item in listaBalas:
 			item.update(contador)
 			contador += 1
+
+		for item in bulletsToRemove:
+			listaBalas.remove(item[0])
+			parsed[playerName][1].pop(item[1])
+
+		bulletsToRemove = []
+
 
 		player.update()
 		playersGroup.draw(sv)
