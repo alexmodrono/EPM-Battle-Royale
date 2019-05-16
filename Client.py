@@ -174,7 +174,11 @@ class Player(pg.sprite.Sprite):
 		self.catetoY = self.targetCenter[1]-self.rect.y
 		self.hipotenusa = math.sqrt(self.catetoX**2 + self.catetoY**2)
 
-		self.relCatX_CatY = math.ceil(self.catetoX/self.catetoY)
+		try:
+			self.relCatX_CatY = math.ceil(self.catetoX/self.catetoY)
+		except:
+			self.relCatX_CatY = self.catetoX
+
 		self.relHipOrg_HipNueva = self.hipotenusa/2000
 
 		self.proyVelX = self.catetoX/self.relHipOrg_HipNueva
