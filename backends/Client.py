@@ -375,23 +375,23 @@ while True:
 				hecho = True
 
 			if event.type == pg.KEYDOWN:
-				if event.key == pg.K_UP:
+				if event.key == pg.K_UP or event.key == pg.K_w:
 					player.cambioVel(0, -5)
-				if event.key == pg.K_DOWN:
+				if event.key == pg.K_DOWN or event.key == pg.K_s:
 					player.cambioVel(0, 5)
-				if event.key == pg.K_RIGHT:
+				if event.key == pg.K_RIGHT or event.key == pg.K_d:
 					player.cambioVel(5, 0)
-				if event.key == pg.K_LEFT:
+				if event.key == pg.K_LEFT or event.key == pg.K_a:
 					player.cambioVel(-5, 0)
 
 			if event.type == pg.KEYUP:
-				if event.key == pg.K_UP:
+				if event.key == pg.K_UP or event.key == pg.K_w:
 					player.cambioVel(0, 5)
-				if event.key == pg.K_DOWN:
+				if event.key == pg.K_DOWN or event.key == pg.K_s:
 					player.cambioVel(0, -5)
-				if event.key == pg.K_RIGHT:
+				if event.key == pg.K_RIGHT or event.key == pg.K_d:
 					player.cambioVel(-5, 0)
-				if event.key == pg.K_LEFT:
+				if event.key == pg.K_LEFT or event.key == pg.K_a:
 					player.cambioVel(5,  0)
 
 			if event.type == pg.MOUSEBUTTONDOWN:
