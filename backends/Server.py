@@ -15,7 +15,7 @@ class color:
    END = '\033[0m'
 
 class Server():
-	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	connections = []
 	names = []
 	addresses = []
