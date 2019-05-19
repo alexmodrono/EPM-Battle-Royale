@@ -116,20 +116,36 @@ class Pared(pg.sprite.Sprite):
 		self.rect.y = y
 
 class Bala(pg.sprite.Sprite):
-	def __init__(self, color, x, y, radio, velX, velY):
+	def __init__(self, color, x, y, radio, velX, velY, maxLifetime):
 		super().__init__()
 		self.image = pg.Surface([2*radio, 2*radio])
-		self.image.fill(ROJO)
+		self.color = color
+		self.image.fill(self.color)
 		pg.draw.circle(self.image, color, (x, y), radio)
 		self.rect = self.image.get_rect()
 		self.rect.x = x
 		self.rect.y = y
 		self.velX = velX
 		self.velY = velY
+		self.lifetime = 0
+		self.maxLifetime = maxLifetime
 
-	def update(self):
+	def update(self, bulletNum):
 		self.rect.x += self.velX
 		self.rect.y += self.velY
+
+		self.lifetime += 1
+
+		if self.lifetime >= self.maxLifetime:
+			bullets.pop(bulletNum)
+			bulletsToRemove.append((self, bulletNum))
+		else:
+			parsed[playerName][1][bulletNum] = [self.rect.x, self.rect.y]
+
+
+
+	#def networkUpdate(self, item):
+	#	parsed[playerName][1][bullets.index(item)] = [self.rect.x, self.rect.y]
 
 class Player(pg.sprite.Sprite):
 	def __init__(self, color, largo, alto, x, y):
@@ -158,18 +174,23 @@ class Player(pg.sprite.Sprite):
 		self.catetoY = self.targetCenter[1]-self.rect.y
 		self.hipotenusa = math.sqrt(self.catetoX**2 + self.catetoY**2)
 
-		self.relCatX_CatY = math.ceil(self.catetoX/self.catetoY)
+		try:
+			self.relCatX_CatY = math.ceil(self.catetoX/self.catetoY)
+		except:
+			self.relCatX_CatY = self.catetoX
+
 		self.relHipOrg_HipNueva = self.hipotenusa/2000
 
 		self.proyVelX = self.catetoX/self.relHipOrg_HipNueva
 		self.proyVelY = self.catetoY/self.relHipOrg_HipNueva
 
 
-		bala = Bala(ROJO, self.rect.x, self.rect.y, 3, self.proyVelX/200, self.proyVelY/200)
+		bala = Bala(ROJO, self.rect.x, self.rect.y, 3, self.proyVelX/200, self.proyVelY/200, 20)
 		listaBalas.add(bala)
 		bullets.append([ROJO, self.rect.x, self.rect.y, 3, 0])
 
-		#parsed[playerName][1].append({"c": ROJO, "x": self.rect.x, "y": self.rect.y, "r": 3})
+
+		parsed[playerName][1].append([self.rect.x, self.rect.y])
 
 
 		'''loopCount = 0
@@ -183,10 +204,14 @@ class Player(pg.sprite.Sprite):
 
 
 	def updateOnNetwork(self):
-		parsed[playerName]["x"] = self.rect.x
-		parsed[playerName]["y"] = self.rect.y
+		parsed[playerName][0]["x"] = self.rect.x
+		parsed[playerName][0]["y"] = self.rect.y
 
 		#for item in parsed[playerName]
+
+		#for bala in range(len(parsed[playerName][1])):
+		#	parsed[playerName][1][bala] = [listaBalas[bala].rect.x, listaBalas[bala].rect.y]
+
 
 
 	def update(self):
@@ -265,7 +290,7 @@ client = Client(sys.argv[1], sys.argv[2])
 
 while True:
 
-	parsed = {playerName: {"x": 100, "y": 100}}
+	parsed = {playerName: [{"x": 100, "y": 100}, []]}
 	parsedCreated = True
 
 
@@ -274,6 +299,7 @@ while True:
 	playersGroup = pg.sprite.Group()
 	listaBalas = pg.sprite.Group()
 	bullets = []
+	bulletsToRemove = []
 
 	player = Player(BLANCO, 20, 20, 100, 100)
 	playersGroup.add(player)
@@ -317,26 +343,27 @@ while True:
 		try:
 			for item in dataDict["Players"]:
 				if list(item.keys())[0] != playerName:
-					xPos = item[list(item.keys())[0]]["x"]
-					yPos = item[list(item.keys())[0]]["y"]
-					pg.draw.rect(sv, ROJO, (xPos, yPos, 30, 30))
+					xPos = item[list(item.keys())[0]][0]["x"]
+					yPos = item[list(item.keys())[0]][0]["y"]
+					pg.draw.rect(sv, ROJO, (xPos, yPos, 20, 20))
 
-					'''for bullet in item[list(item.keys())[0]][1]:
-						bulletX = bullet["x"]
-						bulletY = bullet["y"]
-						bulletW = bullet["r"]
-						bulletH = bullet["r"]
+					for bullet in item[list(item.keys())[0]][1]:
+						bulletX = bullet[0]
+						bulletY = bullet[1]
+						#bulletW = bullet[2]
+						#bulletH = bullet[3]
 
-						pg.draw.rect(sv, VERDE, (bulletX, bulletY, bulletW, bulletH))
-		'''
+						pg.draw.rect(sv, VERDE, (bulletX, bulletY, 2*3, 2*3))
+
 		except:
 			pass
 
+		'''LIFETIME
 		for item in bullets:
 			item[4] += 1
 
 			if item[4] >= 60:
-				bullets.pop(bullets.index(item))
+				bullets.pop(bullets.index(item))'''
 
 
 
@@ -373,8 +400,17 @@ while True:
 
 		player.updateOnNetwork()
 
+		contador = 0
 		for item in listaBalas:
-			item.update()
+			item.update(contador)
+			contador += 1
+
+		for item in bulletsToRemove:
+			listaBalas.remove(item[0])
+			parsed[playerName][1].pop(item[1])
+
+		bulletsToRemove = []
+
 
 		player.update()
 		playersGroup.draw(sv)
