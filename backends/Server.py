@@ -23,7 +23,7 @@ class Server():
 	# {"Players": {"Player 1": {"x": 100, "y": 300, "w": 30, "h": 30}}}
 
 	def __init__(self):
-		self.sock.bind(('0.0.0.0', 9000))
+		self.sock.bind(('0.0.0.0', 10000))
 		self.sock.listen(1)
 
 		self.coords["Players"] = []
