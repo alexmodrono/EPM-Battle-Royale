@@ -92,14 +92,15 @@ class Server():
 			print(self.connections)
 			print(self.names)
 
+
 credits = """Autor: Miguel Garnica.
 Colaboradores: Alejandro Modroño (@aedev) & Lukasits"""
 os.system("clear")
 print(color.PURPLE + "Ejecutando EPM Server v1.0..." + color.END)
 for letter in credits:
-  sys.stdout.write(letter)
-  sys.stdout.flush()
-  time.sleep(0.1)
+	sys.stdout.write(letter)
+	sys.stdout.flush()
+	time.sleep(0.1)
 print("\n")
 try:
 	loaderText = color.YELLOW + "Servidor ejecutándose..." + color.END
