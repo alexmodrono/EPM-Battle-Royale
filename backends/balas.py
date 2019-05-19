@@ -53,8 +53,6 @@ while True:
         l.append(((event.pos[0]-p)*v)/12)
         l.append(((event.pos[1]-p)*v)/12)
         balas.append(l)
-        print(l)
-        print(balas)
         contador=2
 
 
