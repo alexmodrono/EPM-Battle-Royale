@@ -251,7 +251,7 @@ class Hab1(Habitacion):
 
 
 class Client:
-	sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 	def sendMsg(self):
 		while True:
