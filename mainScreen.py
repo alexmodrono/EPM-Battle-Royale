@@ -287,7 +287,7 @@ DISCORD = (157, 165, 249)
 #####################################################################
 "<-- Variables -->"
 
-ancho, alto = width, height
+ancho, alto = 1280, 720
 sv = pg.display.set_mode((ancho, alto))
 pg.display.set_caption("Juego Final Battle Royale v1.0")
 #pg.mixer.music.load("musica/(3DS Music) Find Mii II - Save the World Heroes!.mp3")
