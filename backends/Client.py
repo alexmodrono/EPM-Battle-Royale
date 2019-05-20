@@ -290,7 +290,7 @@ client = Client(sys.argv[1], sys.argv[2])
 
 while True:
 
-	parsed = {playerName: [{"x": 100, "y": 100}, []]}
+	parsed = {playerName: [{"x": 100, "y": 100}, [], 100]}
 	parsedCreated = True
 
 
@@ -339,6 +339,13 @@ while True:
 		if data:
 			#print('Server --> ' + dataProcessed)
 			print(dataDict)
+
+		try:
+			for playerItem in dataDict["Players"]:
+				if list(playerItem.keys())[0] == playerName:
+					parsed[playerName][2] = playerItem[playerName][2]
+		except:
+			pass
 
 		try:
 			for item in dataDict["Players"]:

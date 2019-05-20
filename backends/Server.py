@@ -29,6 +29,7 @@ class Server():
 		self.coords["Players"] = []
 		self.dataToSend = ''
 		self.dataDict = {}
+		self.listaTodasLasBalas = []
 
 	def handler(self, c, a):
 		while True:
@@ -38,7 +39,7 @@ class Server():
 				self.names.append(str(data, 'utf-8').replace('z', ''))
 				name = self.names[self.addresses.index(a)]
 			else:
-				print(str(a[0]) + ' : ' + str(a[1]) + ' (' + str(name) + ') ' ' --> ' + str(data, 'utf-8'))
+				#print(str(a[0]) + ' : ' + str(a[1]) + ' (' + str(name) + ') ' ' --> ' + str(data, 'utf-8'))
 
 				#print(str(data, 'utf-8'))
 				try:
@@ -52,13 +53,39 @@ class Server():
 						if list(item.keys())[0] == name:
 							self.coords["Players"][self.coords["Players"].index(item)][name] = self.dataDict[name]
 
+					## --------- COLLISIONS BALA-PLAYER --------- ##
 
-					##for item in self.coords["Players"]:
-					##	if list(item.keys())[0] == name:
-					##		self.coords["Players"].append(self.dataDict)
+
 
 				except:
 					pass
+
+				#print(self.coords["Players"], self.coords["Players"][0]["Player client1"])
+				#try:
+				for player in self.coords["Players"]:
+					for bala in player[list(player.keys())[0]][1]:
+						self.listaTodasLasBalas.append(bala)
+
+				print(self.listaTodasLasBalas)
+
+				for player in self.coords["Players"]:
+					for bullet in self.listaTodasLasBalas:
+						playerPos = player[list(player.keys())[0]][0]
+						if bullet[0] >= (playerPos["x"] - 6) and bullet[0] <= (playerPos["x"] + 20): # 20 y 6 son los valores correspondientes al lado de player y bala
+							if bullet[1] >= (playerPos["y"] - 6) and bullet[1] <= (playerPos["y"] + 20):
+								if [bullet[0], bullet[1]] not in player[list(player.keys())[0]][1]: # Comprobar que el player no se choque con sus propias balas
+									# Quitar vida
+									print('dado')
+									#self.listaTodasLasBalas.remove(bullet)
+									player[list(player.keys())[0]][2] -= 50
+
+
+				#except:
+				#	print('--- ERROR ---')
+
+				self.listaTodasLasBalas = []
+
+
 
 				self.dataToSend = self.coords
 			if not data:
@@ -87,7 +114,7 @@ class Server():
 			cThread2.start()
 
 			self.connections.append(c)
-			self.coords["Players"].append({str(self.names[self.addresses.index(a)]): {"x": 100, "y": 300}})
+			self.coords["Players"].append({str(self.names[self.addresses.index(a)]): [{"x": 100, "y": 300}, [], 100]})
 
 			print(self.connections)
 			print(self.names)
@@ -100,7 +127,7 @@ print(color.PURPLE + "Ejecutando EPM Server v1.0..." + color.END)
 for letter in credits:
 	sys.stdout.write(letter)
 	sys.stdout.flush()
-	time.sleep(0.1)
+	time.sleep(0.02)
 print("\n")
 try:
 	loaderText = color.YELLOW + "Servidor ejecutándose..." + color.END
