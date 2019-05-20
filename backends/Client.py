@@ -167,7 +167,7 @@ class Player(pg.sprite.Sprite):
 		self.velY += y
 
 
-	def shoot(self):
+	def shoot(self, ID):
 
 		self.targetCenter = (pg.mouse.get_pos()[0], pg.mouse.get_pos()[1])
 		self.catetoX = self.targetCenter[0]-self.rect.x
@@ -190,7 +190,8 @@ class Player(pg.sprite.Sprite):
 		bullets.append([ROJO, self.rect.x, self.rect.y, 3, 0])
 
 
-		parsed[playerName][1].append([self.rect.x, self.rect.y])
+		parsed[playerName][1].append([self.rect.x, self.rect.y, ID])
+		ID = (ID + 1) % 100
 
 
 		'''loopCount = 0
@@ -300,6 +301,7 @@ while True:
 	listaBalas = pg.sprite.Group()
 	bullets = []
 	bulletsToRemove = []
+	bulletID = 0
 
 	player = Player(BLANCO, 20, 20, 100, 100)
 	playersGroup.add(player)
@@ -403,7 +405,7 @@ while True:
 
 			if event.type == pg.MOUSEBUTTONDOWN:
 				if event.button == 1:
-					player.shoot()
+					player.shoot(bulletID)
 
 		player.updateOnNetwork()
 

@@ -30,6 +30,7 @@ class Server():
 		self.dataToSend = ''
 		self.dataDict = {}
 		self.listaTodasLasBalas = []
+		self.listaBalasABorrar = []
 
 	def handler(self, c, a):
 		while True:
@@ -39,7 +40,7 @@ class Server():
 				self.names.append(str(data, 'utf-8').replace('z', ''))
 				name = self.names[self.addresses.index(a)]
 			else:
-				#print(str(a[0]) + ' : ' + str(a[1]) + ' (' + str(name) + ') ' ' --> ' + str(data, 'utf-8'))
+				print(str(a[0]) + ' : ' + str(a[1]) + ' (' + str(name) + ') ' ' --> ' + str(data, 'utf-8'))
 
 				#print(str(data, 'utf-8'))
 				try:
@@ -74,10 +75,12 @@ class Server():
 						if bullet[0] >= (playerPos["x"] - 6) and bullet[0] <= (playerPos["x"] + 20): # 20 y 6 son los valores correspondientes al lado de player y bala
 							if bullet[1] >= (playerPos["y"] - 6) and bullet[1] <= (playerPos["y"] + 20):
 								if [bullet[0], bullet[1]] not in player[list(player.keys())[0]][1]: # Comprobar que el player no se choque con sus propias balas
-									# Quitar vida
-									print('dado')
-									#self.listaTodasLasBalas.remove(bullet)
-									player[list(player.keys())[0]][2] -= 50
+									if [list(player.keys())[0], bullet[2], 0] not in self.listaBalasABorrar:
+										# Quitar vida
+										print('dado')
+
+										self.listaBalasABorrar.append([list(player.keys())[0], bullet[2], 0])
+										player[list(player.keys())[0]][2] -= 50
 
 
 				#except:
@@ -85,6 +88,10 @@ class Server():
 
 				self.listaTodasLasBalas = []
 
+				'''for item in self.listaBalasABorrar:
+					item[2] += 1
+					if item[2] >= 1000:
+						self.listaBalasABorrar.remove(item)'''
 
 
 				self.dataToSend = self.coords
