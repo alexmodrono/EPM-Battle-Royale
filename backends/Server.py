@@ -74,12 +74,17 @@ class Server():
 						playerPos = player[list(player.keys())[0]][0]
 						if bullet[0] >= (playerPos["x"] - 6) and bullet[0] <= (playerPos["x"] + 20): # 20 y 6 son los valores correspondientes al lado de player y bala
 							if bullet[1] >= (playerPos["y"] - 6) and bullet[1] <= (playerPos["y"] + 20):
-								if [bullet[0], bullet[1]] not in player[list(player.keys())[0]][1]: # Comprobar que el player no se choque con sus propias balas
-									# Quitar vida
-									print('dado')
+								if [bullet[0], bullet[1], 1] not in player[list(player.keys())[0]][1]: # Comprobar que el player no se choque con sus propias balas
+									if bullet[2] == 1:
+										# Quitar vida
+										print('dado')
 
-									#self.listaBalasABorrar.append([list(player.keys())[0], bullet[2], 0])
-									player[list(player.keys())[0]][2] -= 50
+										#self.listaBalasABorrar.append([list(player.keys())[0], bullet[2], 0])
+										player[list(player.keys())[0]][2] -= 50
+										bullet[2] = 0
+										for bala in player[list(player.keys())[0]][1]:
+											if bala == [bullet[0], bullet[1], 1]:
+												bala[2] = 0
 
 									'''if [list(player.keys())[0], bullet[2], 0] not in self.listaBalasABorrar:
 										# Quitar vida

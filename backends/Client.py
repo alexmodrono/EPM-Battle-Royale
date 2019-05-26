@@ -140,7 +140,8 @@ class Bala(pg.sprite.Sprite):
 			bullets.pop(bulletNum)
 			bulletsToRemove.append((self, bulletNum))
 		else:
-			parsed[playerName][1][bulletNum] = [self.rect.x, self.rect.y]
+			parsed[playerName][1][bulletNum][0] = self.rect.x
+			parsed[playerName][1][bulletNum][1] = self.rect.y
 
 
 
@@ -190,7 +191,7 @@ class Player(pg.sprite.Sprite):
 		bullets.append([ROJO, self.rect.x, self.rect.y, 3, 0]) # Color, x, y, radio, lifetime
 
 
-		parsed[playerName][1].append([self.rect.x, self.rect.y]) # x, y, isAlive (0 -> dead; 1 -> alive)
+		parsed[playerName][1].append([self.rect.x, self.rect.y, 1]) # x, y, isAlive (0 -> dead; 1 -> alive)
 
 
 		'''loopCount = 0
@@ -353,8 +354,8 @@ while True:
 			for playerItem in dataDict["Players"]:
 				if list(playerItem.keys())[0] == playerName:
 					parsed[playerName][2] = playerItem[playerName][2]
-					#for item in range(len(parsed[playerName][1])):
-					#	parsed[playerName][1][item][2] = playerItem[playerName][1][item][2]
+					for item in range(len(parsed[playerName][1])):
+						parsed[playerName][1][item][2] = playerItem[playerName][1][item][2]
 		except:
 			pass
 
