@@ -69,7 +69,7 @@ while True:
         balas[i][1]+=balas[i][3]
         pygame.draw.rect(V,Azulo,(balas[i][0],balas[i][1],5,5))
 
-    for x in range(len(balas)-1):
+    for x in range(len(balas)-1,0,-1):
         try:
             if balas[x][0]<=-5 or balas[x][0]>=800 or balas[x][1]<=-5 or balas[x][1]>=800:
                 balas.remove(balas[x])
