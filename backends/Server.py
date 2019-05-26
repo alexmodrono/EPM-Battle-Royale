@@ -67,7 +67,7 @@ class Server():
 					for bala in player[list(player.keys())[0]][1]:
 						self.listaTodasLasBalas.append(bala)
 
-				print(self.listaTodasLasBalas)
+				#print(self.listaTodasLasBalas)
 
 				for player in self.coords["Players"]:
 					for bullet in self.listaTodasLasBalas:
@@ -75,18 +75,28 @@ class Server():
 						if bullet[0] >= (playerPos["x"] - 6) and bullet[0] <= (playerPos["x"] + 20): # 20 y 6 son los valores correspondientes al lado de player y bala
 							if bullet[1] >= (playerPos["y"] - 6) and bullet[1] <= (playerPos["y"] + 20):
 								if [bullet[0], bullet[1]] not in player[list(player.keys())[0]][1]: # Comprobar que el player no se choque con sus propias balas
-									if [list(player.keys())[0], bullet[2], 0] not in self.listaBalasABorrar:
+									# Quitar vida
+									print('dado')
+
+									#self.listaBalasABorrar.append([list(player.keys())[0], bullet[2], 0])
+									player[list(player.keys())[0]][2] -= 50
+
+									'''if [list(player.keys())[0], bullet[2], 0] not in self.listaBalasABorrar:
 										# Quitar vida
 										print('dado')
 
 										self.listaBalasABorrar.append([list(player.keys())[0], bullet[2], 0])
+										player[list(player.keys())[0]][2] -= 50'''
+									'''if bullet[2] == 1:
 										player[list(player.keys())[0]][2] -= 50
+										player[list(player.keys())[0]][1][player[list(player.keys())[0]][1].index(bullet)] = 0'''
 
 
 				#except:
 				#	print('--- ERROR ---')
 
 				self.listaTodasLasBalas = []
+				print(self.coords)
 
 				'''for item in self.listaBalasABorrar:
 					item[2] += 1

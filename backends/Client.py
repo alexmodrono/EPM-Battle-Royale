@@ -187,10 +187,10 @@ class Player(pg.sprite.Sprite):
 
 		bala = Bala(ROJO, self.rect.x, self.rect.y, 3, self.proyVelX/200, self.proyVelY/200, 20)
 		listaBalas.add(bala)
-		bullets.append([ROJO, self.rect.x, self.rect.y, 3, 0])
+		bullets.append([ROJO, self.rect.x, self.rect.y, 3, 0]) # Color, x, y, radio, lifetime
 
 
-		parsed[playerName][1].append([self.rect.x, self.rect.y])
+		parsed[playerName][1].append([self.rect.x, self.rect.y]) # x, y, isAlive (0 -> dead; 1 -> alive)
 
 
 		'''loopCount = 0
@@ -340,10 +340,21 @@ while True:
 			#print('Server --> ' + dataProcessed)
 			print(dataDict)
 
+		'''try:
+			for playerItem in dataDict["Players"]:
+				if list(playerItem.keys())[0] == playerName:
+					parsed[playerName][2] = playerItem[playerName][2]
+					for item in range(len(parsed[playerName][1])):
+						parsed[playerName][1][item][2] = playerItem[playerName][1][item][2]
+		except:
+			pass'''
+
 		try:
 			for playerItem in dataDict["Players"]:
 				if list(playerItem.keys())[0] == playerName:
 					parsed[playerName][2] = playerItem[playerName][2]
+					#for item in range(len(parsed[playerName][1])):
+					#	parsed[playerName][1][item][2] = playerItem[playerName][1][item][2]
 		except:
 			pass
 
