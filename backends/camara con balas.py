@@ -92,8 +92,8 @@ while True:
         try:
             pos=pygame.mouse.get_pos()
             l=[]
-            largo=(pos[0]-largoPantalla//2)
-            alto=(pos[1]-anchoPantalla//2)
+            largo=(pos[0]-anchoPantalla//2)
+            alto=(pos[1]-largoPantalla//2)
             hip=math.sqrt((largo**2)+(alto**2))
             v=100/hip
             l.append(B.centerx)
