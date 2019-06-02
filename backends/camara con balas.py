@@ -38,14 +38,14 @@ def mover(B,camera_pos):
 
     return (pos_x,pos_y)
 
-ancho = 800
-largo = 800
+anchoPantalla = 800
+largoPantalla = 800
 anchoMapa = 2000
 largoMapa = 2000
 
 pygame.init()
 mundo=pygame.Surface((anchoMapa,largoMapa))
-V=pygame.display.set_mode((ancho,largo))
+V=pygame.display.set_mode((anchoPantalla,largoPantalla))
 
 
 Negro=(0,0,0)
@@ -64,7 +64,7 @@ cambioy=0
 
 B=pygame.Rect(0,0,20,20)
 reloj=pygame.time.Clock()
-camara=((B[0]+15)+ancho//2,(B[1]+15)+largo//2)
+camara=((B[0]+15)+anchoPantalla//2,(B[1]+15)+largoPantalla//2)
 
 contador=5
 abajo=False
@@ -92,8 +92,8 @@ while True:
         try:
             pos=pygame.mouse.get_pos()
             l=[]
-            largo=(pos[0]-ancho//2)
-            alto=(pos[1]-largo//2)
+            largo=(pos[0]-largoPantalla//2)
+            alto=(pos[1]-anchoPantalla//2)
             hip=math.sqrt((largo**2)+(alto**2))
             v=100/hip
             l.append(B.centerx)
