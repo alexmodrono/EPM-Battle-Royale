@@ -42,6 +42,7 @@ anchoPantalla = 800
 largoPantalla = 800
 anchoMapa = 2000
 largoMapa = 2000
+cadencia = 7
 
 pygame.init()
 mundo=pygame.Surface((anchoMapa,largoMapa))
@@ -64,7 +65,7 @@ cambioy=0
 
 B=pygame.Rect(0,0,20,20)
 reloj=pygame.time.Clock()
-camara=((B[0]+15)+anchoPantalla//2,(B[1]+15)+largoPantalla//2)
+camara=((B[0]-10)+anchoPantalla//2,(B[1]-10)+largoPantalla//2)
 
 contador=5
 abajo=False
@@ -81,7 +82,7 @@ while True:
 
         if event.type==MOUSEBUTTONUP:
             abajo=False
-            contador=2
+            contador=cadencia
 
     if abajo and contador>0:
         contador-=1
@@ -95,13 +96,13 @@ while True:
             largo=(pos[0]-anchoPantalla//2)
             alto=(pos[1]-largoPantalla//2)
             hip=math.sqrt((largo**2)+(alto**2))
-            v=100/hip
+            v=250/hip
             l.append(B.centerx)
             l.append(B.centery)
             l.append((largo*v)/12)
             l.append((alto*v)/12)
             balas.append(l)
-            contador=2
+            contador=cadencia
         except:
             pass
 
