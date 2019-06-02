@@ -1,5 +1,5 @@
 # EPM Battle Royale
-EPM Battle Royale es un juego creado por los estudiantes **Alejandro Modroño**, **Miguel Garnica** y **Lucas** de la *Escuela EPM* (Escuela Pensamiento Matemático) de Las Rozas de Madrid.
+EPM Battle Royale es un juego creado por los estudiantes **Alejandro Modroño**, **Miguel Garnica** y **Lukas Fernández** de la *Escuela EPM* (Escuela Pensamiento Matemático) de Torrelodones.
 
 EPM Battle Royale está hecho en **C++**, **Python 3.6.5** y **Pygame 1.9.4** y es un [diseño clean room](https://en.wikipedia.org/wiki/Clean_room_design), de código abierto, de [Zombs Royale](https://zombsroyale.io).
 
