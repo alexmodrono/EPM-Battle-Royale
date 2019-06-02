@@ -1,39 +1,40 @@
 import pygame, sys, time, random, math
 from pygame.locals import *
 
+velJugador = 5
 
 def mover(B,camera_pos):
     pos_x,pos_y = camera_pos
     key = pygame.key.get_pressed()
     if key[pygame.K_w]:
 
-        B[1] -= 8
-        pos_y += 8
+        B[1] -= velJugador
+        pos_y += velJugador
     if key[pygame.K_a]:
 
-        B[0] -= 8
-        pos_x += 8
+        B[0] -= velJugador
+        pos_x += velJugador
     if key[pygame.K_s]:
 
-        B[1] += 8
-        pos_y -= 8
+        B[1] += velJugador
+        pos_y -= velJugador
     if key[pygame.K_d]:
 
-        B[0] += 8
-        pos_x -= 8
+        B[0] += velJugador
+        pos_x -= velJugador
 
 
     if B[0] < 0:
         B[0] = 0
         pos_x = camera_pos[0]
-    elif B[0] >1980:
-        B[0] = 1980
+    elif B[0] > anchoMapa-20:
+        B[0] = anchoMapa-20
         pos_x = camera_pos[0]
     if B[1] < 0:
         B[1] = 0
         pos_y = camera_pos[1]
-    elif B[1] > 1980:
-        B[1] = 1980
+    elif B[1] > anchoMapa-20:
+        B[1] = anchoMapa-20
         pos_y = camera_pos[1]
 
     return (pos_x,pos_y)
@@ -47,6 +48,7 @@ cadencia = 7
 pygame.init()
 mundo=pygame.Surface((anchoMapa,largoMapa))
 V=pygame.display.set_mode((anchoPantalla,largoPantalla))
+pygame.display.set_caption('EPM Battle Royale v1.0b2019f6')
 
 
 Negro=(0,0,0)
