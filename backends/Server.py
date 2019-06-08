@@ -72,8 +72,8 @@ class Server():
 				for player in self.coords["Players"]:
 					for bullet in self.listaTodasLasBalas:
 						playerPos = player[list(player.keys())[0]][0]
-						if bullet[0] >= (playerPos["x"] - 6) and bullet[0] <= (playerPos["x"] + 20): # 20 y 6 son los valores correspondientes al lado de player y bala
-							if bullet[1] >= (playerPos["y"] - 6) and bullet[1] <= (playerPos["y"] + 20):
+						if bullet[0] >= (playerPos["x"] - 5) and bullet[0] <= (playerPos["x"] + 20): # 20 y 6 son los valores correspondientes al lado de player y bala
+							if bullet[1] >= (playerPos["y"] - 5) and bullet[1] <= (playerPos["y"] + 20):
 								if [bullet[0], bullet[1], 1] not in player[list(player.keys())[0]][1]: # Comprobar que el player no se choque con sus propias balas
 									if bullet[2] == 1:
 										# Quitar vida
