@@ -31,6 +31,7 @@ class Server():
 		self.dataDict = {}
 		self.listaTodasLasBalas = []
 		self.listaBalasABorrar = []
+		self.dictVidaPlayers = {}
 
 	def handler(self, c, a):
 		while True:
@@ -39,6 +40,7 @@ class Server():
 			if str(data, 'utf-8')[0] == 'z' and str(data, 'utf-8')[1] == 'z':
 				self.names.append(str(data, 'utf-8').replace('z', ''))
 				name = self.names[self.addresses.index(a)]
+				self.dictVidaPlayers[name] = 100
 			else:
 				print(str(a[0]) + ' : ' + str(a[1]) + ' (' + str(name) + ') ' ' --> ' + str(data, 'utf-8'))
 
@@ -53,6 +55,7 @@ class Server():
 					for item in self.coords["Players"]:
 						if list(item.keys())[0] == name:
 							self.coords["Players"][self.coords["Players"].index(item)][name] = self.dataDict[name]
+							self.coords["Players"][self.coords["Players"].index(item)][name][2] = self.dictVidaPlayers[name]
 
 					## --------- COLLISIONS BALA-PLAYER --------- ##
 
@@ -79,8 +82,11 @@ class Server():
 										# Quitar vida
 										print('dado')
 
+										self.dictVidaPlayers[list(player.keys())[0]] -= 5
+
 										#self.listaBalasABorrar.append([list(player.keys())[0], bullet[2], 0])
-										player[list(player.keys())[0]][2] -= 50
+
+										##player[list(player.keys())[0]][2] -= 50
 										bullet[2] = 0
 										for bala in player[list(player.keys())[0]][1]:
 											if bala == [bullet[0], bullet[1], 1]:

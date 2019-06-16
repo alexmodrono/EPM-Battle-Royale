@@ -11,7 +11,7 @@ def WaitForKeyPress():
 
 
 def Finish():
-	pg.quit()
+	pygame.quit()
 	sys.exit()
 
 
@@ -42,32 +42,48 @@ user = 0
 
 file.close()
 
-uName = None
+estoyLogin = False
 
-if pyautogui.confirm(text='Login or register:', title='Login', buttons=['Login', 'Register', 'Back']) == 'Login':
-	while True:
-		uName = pyautogui.prompt(text='Username', title='Login', default='')
-		if uName in userList:
-			for x in range(len(userList)):
-				if userList[x] == uName:
-					user = x
-					while True:
-						pwd = pyautogui.password(text='Password', title='Login', default='', mask='*')
-						if pwd == passwordList[user]:
-							pyautogui.alert(text='Done', title='Login', button='OK')
-							break
-						elif pwd == None:
-							break
+while estoyLogin == False:
 
-						else:
-							pyautogui.alert(text='Incorrect password. Try again', title='Login error', button='OK')
-		elif uName == None:
+	uName = None
+
+	mainMenu = pyautogui.confirm(text='Login or register:', title='Login', buttons=['Login', 'Register', 'Back'])
+
+	if mainMenu == 'Login':
+		while True:
+			uName = pyautogui.prompt(text='Username', title='Login', default='')
+			if uName in userList:
+				for x in range(len(userList)):
+					if userList[x] == uName:
+						user = x
+						while True:
+							pwd = pyautogui.password(text='Password', title='Login', default='', mask='*')
+							if pwd == passwordList[user]:
+								pyautogui.alert(text='Done', title='Login', button='OK')
+								estoyLogin = True
+								break
+							elif pwd == None:
+								break
+
+							else:
+								pyautogui.alert(text='Incorrect password. Try again', title='Login error', button='OK')
+			elif uName == None:
+				break
+
+			else:
+				pyautogui.alert(text='Incorrect usrename. Try again', title='Login error', button='OK')
+				continue
 			break
 
-		else:
-			pyautogui.alert(text='Incorrect usrename. Try again', title='Login error', button='OK')
-			continue
-		break
+	elif mainMenu == 'Register':
+		registerBox = pyautogui.confirm(text='Currently this function is not availiable.\nContact the developers if you do not have an account and you want to create one.', title='Register', buttons=['Back'])
+		if registerBox == 'Back':
+			pass
+
+	elif mainMenu == 'Back':
+		estoyLogin = True
+
 
 if uName == None:
 	Finish()
@@ -174,7 +190,7 @@ class Client:
 				self.sock.send(bytes('Hola', 'utf-8'))
 			time.sleep(1/60)
 
-	def __init__(self, address, name):
+	def __init__(self, address):
 		self.sock.connect((address, 10000))
 		self.sock.send(bytes(zzName, 'utf-8'))
 		time.sleep(1)
@@ -189,7 +205,7 @@ WaitForKeyPress()
 
 parsedCreated = False
 
-client = Client(sys.argv[1], sys.argv[2])
+client = Client(sys.argv[1])
 
 while True:
 
@@ -232,6 +248,11 @@ while True:
 					parsed[playerName][2] = playerItem[playerName][2]
 					for item in range(len(parsed[playerName][1])):
 						parsed[playerName][1][item][2] = playerItem[playerName][1][item][2]
+
+					if item[playerName][2] <= 0:
+						print("MUERTO")
+						Finish()
+
 		except:
 			pass
 
@@ -243,15 +264,19 @@ while True:
 					pygame.draw.rect(mundo, Azulo, (xPos, yPos, 20, 20))
 
 					for bullet in item[list(item.keys())[0]][1]:
-						bulletX = bullet[0]
-						bulletY = bullet[1]
-						#bulletW = bullet[2]
-						#bulletH = bullet[3]
+						if bullet[2] == 1:
+							bulletX = bullet[0]
+							bulletY = bullet[1]
+							#bulletW = bullet[2]
+							#bulletH = bullet[3]
 
-						pygame.draw.rect(mundo, Blanco, (bulletX, bulletY, 5, 5))
+							pygame.draw.rect(mundo, Blanco, (bulletX, bulletY, 5, 5))
+
+
 
 		except:
 			pass
+
 
 
 
@@ -306,9 +331,9 @@ while True:
 				balas.remove(bala)
 				try:
 					parsed[playerName][1].remove([int(bala[0]), int(bala[1]), 1])
-					parsed[playerName][1].remove([int(bala[0]), int(bala[1]), 0])
+
 				except:
-					pass
+					parsed[playerName][1].remove([int(bala[0]), int(bala[1]), 0])
 
 
 
