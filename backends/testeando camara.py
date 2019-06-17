@@ -1,6 +1,12 @@
 import pygame, sys, time, random, math, ast, json, socket, threading, pyautogui
 from pygame.locals import *
 
+def dibujarTexto(text, font, surface, x, y, color):
+	objText = font.render(text, 1, color)
+	rectText = objText.get_rect()
+	rectText.center = (x, y)
+	surface.blit(objText, rectText)
+
 def WaitForKeyPress():
 	while True:
 		for event in pygame.event.get():
@@ -137,6 +143,9 @@ def mover(B,camera_pos):
 
     return (pos_x,pos_y)
 
+healthBarXSize = 300
+healthBarYSize = 25
+
 anchoPantalla = 800
 largoPantalla = 600
 anchoMapa = 2000
@@ -145,8 +154,14 @@ cadencia = 7
 
 pygame.init()
 mundo=pygame.Surface((anchoMapa,largoMapa))
+canvas = pygame.Surface([anchoPantalla, largoPantalla], pygame.SRCALPHA, 32)
 V=pygame.display.set_mode((anchoPantalla,largoPantalla))
-pygame.display.set_caption('EPM Battle Royale v1.0b2019f6')
+title = str('EPM Battle Royale v1.0b2019f6' + '  --  (Logged as ' + str(uName) + ')')
+pygame.display.set_caption(title)
+bgImg = pygame.image.load('fantasy_map.png').convert()
+#pygame.transform.scale(bgImg, (scale) ---> to resize image
+
+
 
 
 Negro=(0,0,0)
@@ -212,13 +227,18 @@ while True:
 	parsed = {playerName: [{"x": 100, "y": 100}, [], 100]}
 	parsedCreated = True
 
+	vida = 100
+
 
 	hecho = False
 
 	while not hecho:
 
 		V.fill(Negro)
-		mundo.fill(Verde)
+		#mundo.fill(Verde)
+		mundo.blit(bgImg, (0, 0))
+		canvas.fill(pygame.SRCALPHA)
+
 
 
 		data = client.sock.recv(1024)
@@ -239,17 +259,27 @@ while True:
 
 		if data:
 			#print('Server --> ' + dataProcessed)
-			print(dataDict)
+			######print(dataDict)
+			pass
 
 
 		try:
 			for playerItem in dataDict["Players"]:
+				##dibujarTexto(str(list(playerItem.keys())[0]), pygame.font.SysFont('Arial', 15), mundo, playerItem[list(playerItem.keys())[0]][0]["x"] + 10, playerItem[list(playerItem.keys())[0]][0]["y"] - 10, Blanco)
+
+
 				if list(playerItem.keys())[0] == playerName:
+					dibujarTexto(str(playerName), pygame.font.SysFont('Arial', 20), canvas,
+								 anchoPantalla/2,
+								 largoPantalla/2 - 20, Blanco)
+
 					parsed[playerName][2] = playerItem[playerName][2]
 					for item in range(len(parsed[playerName][1])):
 						parsed[playerName][1][item][2] = playerItem[playerName][1][item][2]
 
-					if item[playerName][2] <= 0:
+					vida = playerItem[playerName][2]
+
+					if vida <= 0:
 						print("MUERTO")
 						Finish()
 
@@ -259,6 +289,10 @@ while True:
 		try:
 			for item in dataDict["Players"]:
 				if list(item.keys())[0] != playerName:
+					dibujarTexto(str(list(item.keys())[0]), pygame.font.SysFont('Arial', 18), mundo,
+								 item[list(item.keys())[0]][0]["x"] + 10,
+								 item[list(item.keys())[0]][0]["y"] - 10, Blanco)
+
 					xPos = item[list(item.keys())[0]][0]["x"]
 					yPos = item[list(item.keys())[0]][0]["y"]
 					pygame.draw.rect(mundo, Azulo, (xPos, yPos, 20, 20))
@@ -325,6 +359,15 @@ while True:
 		pygame.draw.rect(mundo,Rojo,B)
 
 
+		## ------ HEALTH BAR ------ ##
+
+		pygame.draw.rect(canvas, Gris, (anchoPantalla/2 - (healthBarXSize/2), 550, healthBarXSize, healthBarYSize), 5)
+
+		pygame.draw.rect(canvas, Azulc, (anchoPantalla/2 - (healthBarXSize/2) + 3, 553, int(vida/100 * healthBarXSize - 6), healthBarYSize-6))
+		print(vida, int(vida/100 * healthBarXSize-6))
+
+
+
 		for bala in balas:
 			bala[4] += 1
 			if bala[4] > maxBalaLifetime:
@@ -354,9 +397,10 @@ while True:
 			except:
 				pass'''
 
-		print(parsed)
+		######print(parsed)
 
 
 		V.blit(mundo,camara)
+		V.blit(canvas, canvas.get_rect())
 		pygame.display.update()
 		reloj.tick(60)
