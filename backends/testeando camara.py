@@ -215,7 +215,15 @@ class Client:
 		iThread.start()
 
 
+hostName = socket.gethostname()
+hostIP = socket.gethostbyname(hostName)
 
+dibujarTexto('Press space to continue', pygame.font.SysFont('Arial', 50), V, anchoPantalla/2, 250, Blanco)
+dibujarTexto(str('Host name: ' + str(hostName)), pygame.font.SysFont('Arial', 30), V, anchoPantalla/2, 520, Blanco)
+dibujarTexto(str('IP address: ' + str(hostIP)), pygame.font.SysFont('Arial', 20), V, anchoPantalla/2, 550, Blanco)
+
+
+pygame.display.update()
 WaitForKeyPress()
 
 parsedCreated = False
